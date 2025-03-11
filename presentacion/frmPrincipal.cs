@@ -16,5 +16,10 @@ namespace presentacion
         {
             InitializeComponent();
         }
+
+        private void frmPrincipal_Load(object sender, EventArgs e)
+        {
+            //Esto es un comentario de prueba
+        }
     }
 }

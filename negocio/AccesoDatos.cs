@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace negocio
 {
-    class AccesoDatos
+    public class AccesoDatos
     {
     }
 }
