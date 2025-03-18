@@ -25,6 +25,7 @@ namespace presentacion
             InitializeComponent();
             this.articulo = articulo;
             Text = "Modificar artículo";
+            lblTitulo.Text = "Modificar artículo";
         }
 
         private void frmAltaArticulo_Load(object sender, EventArgs e)
@@ -32,18 +33,28 @@ namespace presentacion
             try
             {
                 cargarCbs();
-                pbImagen.Load("https://developers.elementor.com/docs/assets/img/elementor-placeholder-image.png");
 
                 if(articulo != null)
                 {
-                txtCodigoArticulo.Text = articulo.CodigoArticulo;
-                txtNombre.Text = articulo.Nombre;
-                txtDescripcion.Text = articulo.Descripcion;
-                cbMarca.SelectedValue = articulo.Marca.Id;
-                cbCategoria.SelectedValue = articulo.Categoria.Id;
-                txtUrlImagen.Text = articulo.UrlImagen;
-                txtPrecio.Text = articulo.Precio.ToString();
+                    try
+                    {
+                        pbImagen.Load(articulo.UrlImagen);
+                    }
+                    catch (Exception)
+                    {
+                        pbImagen.Load("https://developers.elementor.com/docs/assets/img/elementor-placeholder-image.png");
+                    }
+
+                    txtCodigoArticulo.Text = articulo.CodigoArticulo;
+                    txtNombre.Text = articulo.Nombre;
+                    txtDescripcion.Text = articulo.Descripcion;
+                    cbMarca.SelectedValue = articulo.Marca.Id;
+                    cbCategoria.SelectedValue = articulo.Categoria.Id;
+                    txtUrlImagen.Text = articulo.UrlImagen;
+                    txtPrecio.Text = articulo.Precio.ToString();
                 }
+                else
+                    pbImagen.Load("https://developers.elementor.com/docs/assets/img/elementor-placeholder-image.png");
 
             }
             catch (Exception)
@@ -84,7 +95,10 @@ namespace presentacion
                 articulo.Marca = (Marca)cbMarca.SelectedItem;
                 articulo.Categoria = (Categoria)cbCategoria.SelectedItem;
                 articulo.UrlImagen = txtUrlImagen.Text;
-                articulo.Precio = decimal.Parse(txtPrecio.Text);
+                if (txtPrecio.Text == "")
+                    articulo.Precio = 0;
+                else
+                    articulo.Precio = decimal.Parse(txtPrecio.Text);
 
                 if(articulo.Id != 0) 
                 {

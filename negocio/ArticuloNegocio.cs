@@ -91,9 +91,9 @@ namespace negocio
             if (categoria != "Todas")
                 consulta = consulta + " and C.Descripcion = '" + categoria + "'";
             if (precioMin != "")             
-                consulta = consulta + " and Precio >" + precioMin;            
+                consulta = consulta + " and Precio >" + precioMin.Replace(",", ".");    //Reemplazamos para la consulta SQL        
             if(precioMax != "")
-                consulta = consulta + " and Precio <" + precioMax;
+                consulta = consulta + " and Precio <" + precioMax.Replace(",", ".");
             
 
             datos.setearConsulta(consulta);

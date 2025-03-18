@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using negocio;
 using dominio;
+using System.Security.Policy;
 
 namespace presentacion
 {
@@ -22,14 +23,14 @@ namespace presentacion
 
         private void frmPrincipal_Load(object sender, EventArgs e)
         {
-            cargar();            
+            cargarDatos();            
+            cargarCboxes();
         }
 
-        private void cargar()
+        private void cargarDatos()
         {
             inicializarLista();
             cargarDataGridView(listaArticulos);
-            cargarCboxes();
         }
 
         private void inicializarLista()
@@ -44,12 +45,14 @@ namespace presentacion
             {                
                 dgvArticulos.DataSource = lista;
                 ocultarColumnas();
-                pbArticulo.Load(listaArticulos[0].UrlImagen);
-                lblDescripcion.Text = (listaArticulos[0].Descripcion);
+                if (listaArticulos.Count > 0)    //Chequea que la lista no esté vacía si se filtró antes
+                {
+                    cargarImagen(listaArticulos[0].UrlImagen);
+                    lblDescripcion.Text = (listaArticulos[0].Descripcion);
+                }
             }
             catch (Exception)
             {
-
                 MessageBox.Show("No se pudo cargar los datos. Intente nuevamente más tarde");
             }
             
@@ -106,6 +109,11 @@ namespace presentacion
                 cargarImagen(((Articulo)dgvArticulos.CurrentRow.DataBoundItem).UrlImagen);
                 cargarDescripcion(((Articulo)dgvArticulos.CurrentRow.DataBoundItem).Descripcion);
             }
+            else
+            {
+                cargarImagen("https://developers.elementor.com/docs/assets/img/elementor-placeholder-image.png");
+                cargarDescripcion("-");
+            }
                 
         }
 
@@ -147,6 +155,7 @@ namespace presentacion
 
         private void txtPrecioMinimo_KeyPress(object sender, KeyPressEventArgs e)
         {
+            //Validamos que solamente se puedan ingresar números y una coma
             if (!(Char.IsNumber(e.KeyChar) || e.KeyChar == ',' || e.KeyChar == (char)Keys.Back))
                 e.Handled = true;
             if (e.KeyChar == ',' && txtPrecioMinimo.Text.Contains(','))
@@ -167,13 +176,13 @@ namespace presentacion
             try
             {
                 ArticuloNegocio negocio = new ArticuloNegocio();
-                List<Articulo> listaFiltrada = negocio.listarConFiltro(cbMarca.Text,cbCategoria.Text, txtPrecioMinimo.Text, txtPrecioMaximo.Text);
-                cargarDataGridView(listaFiltrada);
-                
+                //List<Articulo> listaFiltrada = negocio.listarConFiltro(cbMarca.Text,cbCategoria.Text, txtPrecioMinimo.Text, txtPrecioMaximo.Text);
+                //cargarDataGridView(listaFiltrada);    Viejo, sin modificar la lista original
+                listaArticulos = negocio.listarConFiltro(cbMarca.Text,cbCategoria.Text, txtPrecioMinimo.Text, txtPrecioMaximo.Text);
+                cargarDataGridView(listaArticulos);
             }
             catch (Exception)
             {
-
                 throw;
             }
 
@@ -186,7 +195,7 @@ namespace presentacion
             frmAltaArticulo ventanaAlta = new frmAltaArticulo();
             ventanaAlta.ShowDialog();
 
-            cargar();
+            cargarDatos();
         }
 
         private void btnEliminar_Click(object sender, EventArgs e)
@@ -204,7 +213,7 @@ namespace presentacion
                 if (respuesta == DialogResult.Yes)
                 {
                     negocio.eliminar((Articulo)dgvArticulos.CurrentRow.DataBoundItem);                  
-                    cargar();
+                    cargarDatos();
                 }
             }
             catch (Exception ex)
@@ -215,10 +224,34 @@ namespace presentacion
 
         private void btnModificar_Click(object sender, EventArgs e)
         {
-            frmAltaArticulo ventanaModificar = new frmAltaArticulo((Articulo)dgvArticulos.CurrentRow.DataBoundItem);
-            ventanaModificar.ShowDialog();
+            try
+            {
+                frmAltaArticulo ventanaModificar = new frmAltaArticulo((Articulo)dgvArticulos.CurrentRow.DataBoundItem);
+                ventanaModificar.ShowDialog();
+            }
+            catch (Exception)
+            {
+                MessageBox.Show("Debe seleccionar un artículo para modificar");
+            }
+            finally
+            {
+                reiniciar();
+            }
+        }
 
-            cargar();
+        private void btnReiniciar_Click(object sender, EventArgs e)
+        {
+            reiniciar();
+        }
+
+        private void reiniciar()
+        {
+            cargarDatos();
+            cbMarca.SelectedIndex = 0;
+            cbCategoria.SelectedIndex = 0;
+            txtPrecioMinimo.Text = "";
+            txtPrecioMaximo.Text = "";
+            txtBuscador.Text = "";
         }
     }
 }

@@ -47,6 +47,7 @@
             this.lblDescripcion = new System.Windows.Forms.Label();
             this.lblPrecioMinimo = new System.Windows.Forms.Label();
             this.lblPrecioMaximo = new System.Windows.Forms.Label();
+            this.btnReiniciar = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dgvArticulos)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pbArticulo)).BeginInit();
             this.SuspendLayout();
@@ -123,7 +124,7 @@
             // 
             // btnAplicar
             // 
-            this.btnAplicar.Location = new System.Drawing.Point(79, 238);
+            this.btnAplicar.Location = new System.Drawing.Point(26, 246);
             this.btnAplicar.Name = "btnAplicar";
             this.btnAplicar.Size = new System.Drawing.Size(80, 27);
             this.btnAplicar.TabIndex = 7;
@@ -200,9 +201,10 @@
             // lblDescripcion
             // 
             this.lblDescripcion.AutoSize = true;
+            this.lblDescripcion.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblDescripcion.Location = new System.Drawing.Point(884, 363);
             this.lblDescripcion.Name = "lblDescripcion";
-            this.lblDescripcion.Size = new System.Drawing.Size(10, 13);
+            this.lblDescripcion.Size = new System.Drawing.Size(14, 20);
             this.lblDescripcion.TabIndex = 18;
             this.lblDescripcion.Text = "-";
             // 
@@ -224,11 +226,22 @@
             this.lblPrecioMaximo.TabIndex = 20;
             this.lblPrecioMaximo.Text = "Máx.";
             // 
+            // btnReiniciar
+            // 
+            this.btnReiniciar.Location = new System.Drawing.Point(112, 246);
+            this.btnReiniciar.Name = "btnReiniciar";
+            this.btnReiniciar.Size = new System.Drawing.Size(79, 27);
+            this.btnReiniciar.TabIndex = 21;
+            this.btnReiniciar.Text = "Reiniciar";
+            this.btnReiniciar.UseVisualStyleBackColor = true;
+            this.btnReiniciar.Click += new System.EventHandler(this.btnReiniciar_Click);
+            // 
             // frmPrincipal
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1204, 451);
+            this.Controls.Add(this.btnReiniciar);
             this.Controls.Add(this.lblPrecioMaximo);
             this.Controls.Add(this.lblPrecioMinimo);
             this.Controls.Add(this.lblDescripcion);
@@ -282,5 +295,6 @@
         private System.Windows.Forms.Label lblDescripcion;
         private System.Windows.Forms.Label lblPrecioMinimo;
         private System.Windows.Forms.Label lblPrecioMaximo;
+        private System.Windows.Forms.Button btnReiniciar;
     }
 }
