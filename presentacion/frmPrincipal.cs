@@ -22,10 +22,14 @@ namespace presentacion
 
         private void frmPrincipal_Load(object sender, EventArgs e)
         {
+            cargar();            
+        }
+
+        private void cargar()
+        {
             inicializarLista();
             cargarDataGridView(listaArticulos);
             cargarCboxes();
-            
         }
 
         private void inicializarLista()
@@ -143,18 +147,18 @@ namespace presentacion
 
         private void txtPrecioMinimo_KeyPress(object sender, KeyPressEventArgs e)
         {
-            if (!(Char.IsNumber(e.KeyChar) || e.KeyChar == '.' || e.KeyChar == (char)Keys.Back))
+            if (!(Char.IsNumber(e.KeyChar) || e.KeyChar == ',' || e.KeyChar == (char)Keys.Back))
                 e.Handled = true;
-            if (e.KeyChar == '.' && txtPrecioMinimo.Text.Contains('.'))
+            if (e.KeyChar == ',' && txtPrecioMinimo.Text.Contains(','))
                 e.Handled = true;
           
         }
 
         private void txtPrecioMaximo_KeyPress(object sender, KeyPressEventArgs e)
         {
-            if (!(Char.IsNumber(e.KeyChar) || e.KeyChar == '.' || e.KeyChar == (char)Keys.Back))
+            if (!(Char.IsNumber(e.KeyChar) || e.KeyChar == ',' || e.KeyChar == (char)Keys.Back))
                 e.Handled = true;
-            if (e.KeyChar == '.' && txtPrecioMaximo.Text.Contains('.'))
+            if (e.KeyChar == ',' && txtPrecioMaximo.Text.Contains(','))
                 e.Handled = true;
         }
 
@@ -175,6 +179,46 @@ namespace presentacion
 
 
             txtBuscador.Text = "";
+        }
+
+        private void btnAgregar_Click(object sender, EventArgs e)
+        {
+            frmAltaArticulo ventanaAlta = new frmAltaArticulo();
+            ventanaAlta.ShowDialog();
+
+            cargar();
+        }
+
+        private void btnEliminar_Click(object sender, EventArgs e)
+        {
+            eliminar();
+        }
+
+        private void eliminar()
+        {
+
+            ArticuloNegocio negocio = new ArticuloNegocio();
+            try
+            {
+                DialogResult respuesta = MessageBox.Show("Al eliminar el registro no se podrá recuperar. ¿Está seguro que desea continuar con la eliminación?", "Eliminar artículo", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
+                if (respuesta == DialogResult.Yes)
+                {
+                    negocio.eliminar((Articulo)dgvArticulos.CurrentRow.DataBoundItem);                  
+                    cargar();
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.ToString());
+            }
+        }
+
+        private void btnModificar_Click(object sender, EventArgs e)
+        {
+            frmAltaArticulo ventanaModificar = new frmAltaArticulo((Articulo)dgvArticulos.CurrentRow.DataBoundItem);
+            ventanaModificar.ShowDialog();
+
+            cargar();
         }
     }
 }

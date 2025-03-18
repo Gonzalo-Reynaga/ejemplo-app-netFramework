@@ -149,6 +149,7 @@
             this.btnAgregar.TabIndex = 8;
             this.btnAgregar.Text = "Agregar artículo";
             this.btnAgregar.UseVisualStyleBackColor = true;
+            this.btnAgregar.Click += new System.EventHandler(this.btnAgregar_Click);
             // 
             // btnModificar
             // 
@@ -158,6 +159,7 @@
             this.btnModificar.TabIndex = 9;
             this.btnModificar.Text = "Modificar artículo";
             this.btnModificar.UseVisualStyleBackColor = true;
+            this.btnModificar.Click += new System.EventHandler(this.btnModificar_Click);
             // 
             // btnEliminar
             // 
@@ -167,19 +169,20 @@
             this.btnEliminar.TabIndex = 10;
             this.btnEliminar.Text = "Eliminar artículo";
             this.btnEliminar.UseVisualStyleBackColor = true;
+            this.btnEliminar.Click += new System.EventHandler(this.btnEliminar_Click);
             // 
             // lblBuscar
             // 
             this.lblBuscar.AutoSize = true;
             this.lblBuscar.Location = new System.Drawing.Point(224, 27);
             this.lblBuscar.Name = "lblBuscar";
-            this.lblBuscar.Size = new System.Drawing.Size(43, 13);
+            this.lblBuscar.Size = new System.Drawing.Size(143, 13);
             this.lblBuscar.TabIndex = 13;
-            this.lblBuscar.Text = "Buscar:";
+            this.lblBuscar.Text = "Buscar por código o nombre:";
             // 
             // txtBuscador
             // 
-            this.txtBuscador.Location = new System.Drawing.Point(273, 24);
+            this.txtBuscador.Location = new System.Drawing.Point(373, 24);
             this.txtBuscador.Name = "txtBuscador";
             this.txtBuscador.Size = new System.Drawing.Size(170, 20);
             this.txtBuscador.TabIndex = 2;
